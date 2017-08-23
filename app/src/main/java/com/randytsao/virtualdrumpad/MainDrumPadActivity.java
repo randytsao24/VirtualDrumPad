@@ -25,12 +25,12 @@ import android.database.sqlite.*;
 
 public class MainDrumPadActivity extends AppCompatActivity {
 
-    Button buttonOne;
-    Button buttonTwo;
-    Button buttonThree;
-    Button buttonFour;
-    Button buttonFive;
-    Button buttonSix;
+    public static Button buttonOne;
+    public static Button buttonTwo;
+    public static Button buttonThree;
+    public static Button buttonFour;
+    public static Button buttonFive;
+    public static Button buttonSix;
 
     private VirtualPadDrumPad padOne;
     private VirtualPadDrumPad padTwo;
@@ -44,6 +44,8 @@ public class MainDrumPadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Configure toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -75,12 +77,22 @@ public class MainDrumPadActivity extends AppCompatActivity {
         padFive = new VirtualPadDrumPad(buttonFive);
         padSix = new VirtualPadDrumPad(buttonSix);
 
-        // TEMP: test .wav file playback on hardcoded samples
+        // Set pads to existing samples
         padOne.padSample = MediaPlayer.create(this, R.raw.clap_808);
         padTwo.padSample = MediaPlayer.create(this, R.raw.kick_acoustic01);
+        padThree.padSample = MediaPlayer.create(this, R.raw.hihat_acoustic01);
+        padFour.padSample = MediaPlayer.create(this, R.raw.crash_acoustic);
+        padFive.padSample = MediaPlayer.create(this, R.raw.openhat_acoustic01);
+        padSix.padSample = MediaPlayer.create(this, R.raw.perc_tribal);
+
+
 
         padOne.setSample(R.raw.clap_808);
         padTwo.setSample(R.raw.kick_acoustic01);
+        padThree.setSample(R.raw.hihat_acoustic01);
+        padFour.setSample(R.raw.crash_acoustic);
+        padFive.setSample(R.raw.openhat_acoustic01);
+        padSix.setSample(R.raw.perc_tribal);
     }
 
     @Override
@@ -105,34 +117,40 @@ public class MainDrumPadActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // onSettingsClicked
+    // Handler for Settings in toolbar being clicked.
+    /*public void onSettingsClicked(View view) {
+
+    }*/
+
     // onPadOneClick
-    public void onPadOneClick(View view) {
+    public void onPadOneClicked(View view) {
         padOne.playSample();
     }
 
     // onPadTwoClick
-    public void onPadTwoClick(View view) {
+    public void onPadTwoClicked(View view) {
         padTwo.playSample();
     }
 
     // onPadThreeClick
-    public void onPadThreeClick(View view) {
-
+    public void onPadThreeClicked(View view) {
+        padThree.playSample();
     }
 
     // onPadFourClick
-    public void onPadFourClick(View view) {
-
+    public void onPadFourClicked(View view) {
+        padFour.playSample();
     }
 
     // onPadFiveClick
-    public void onPadFiveClick(View view) {
-
+    public void onPadFiveClicked(View view) {
+        padFive.playSample();
     }
 
     // onPadSixClick
-    public void onPadSixClick(View view) {
-
+    public void onPadSixClicked(View view) {
+        padSix.playSample();
     }
 
 }

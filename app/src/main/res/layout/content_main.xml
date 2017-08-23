@@ -12,6 +12,7 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:stretchColumns="*"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -26,60 +27,60 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/padOne"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_one"
-                android:onClick="onPadOneClick" />
+                android:onClick="onPadOneClicked" />
 
             <Button
                 android:id="@+id/padTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_two"
-                android:onClick="onPadTwoClick" />
+                android:onClick="onPadTwoClicked" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/padThree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_three"
-                android:onClick="onPadThreeClick" />
+                android:onClick="onPadThreeClicked" />
 
             <Button
                 android:id="@+id/padFour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_four"
-                android:onClick="onPadFourClick" />
+                android:onClick="onPadFourClicked" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/padFive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_five"
-                android:onClick="onPadFiveClick" />
+                android:onClick="onPadFiveClicked" />
 
             <Button
                 android:id="@+id/padSix"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="@string/pad_six"
-                android:onClick="onPadSixClick" />
+                android:onClick="onPadSixClicked" />
         </TableRow>
 
     </TableLayout>

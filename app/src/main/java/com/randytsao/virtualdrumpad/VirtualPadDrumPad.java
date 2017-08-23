@@ -1,8 +1,8 @@
 /**
  * VirtualPadDrumPad.java
  *
- *  This file contains the class declaration for VirtualPadDrumPad. This class contains the
- *  necessary methods and members for assigning a particular sample to a button on the app.
+ *  This file contains the class declaration for VirtualPadDrumPad. Each VirtualPadDrumPad
+ *  in the app has a particular button and audio sample assigned to it.
  *
  */
 
@@ -27,9 +27,9 @@ import android.media.AudioManager;
 import android.media.AudioAttributes;
 
 public class VirtualPadDrumPad {
-    Button          padButton;  // button that this pad is assigned to
-    MediaPlayer     padSample; // sample that the pad is assigned to
-    int             sampleRawId;
+    Button          padButton;          // button that this pad is assigned to
+    MediaPlayer     padSample;          // sample that the pad is assigned to
+    int             sampleRawId;        // integer ID from res/raw
 
     AudioAttributes sampleAttributes;
     SoundPool       soundPool;
@@ -54,6 +54,7 @@ public class VirtualPadDrumPad {
     // playSample()
     // Play assigned sample
     public void playSample() {
+
         // Check if sample is still playing, reset to beginning if so
         if (padSample.isPlaying()) {
             padSample.seekTo(0);
