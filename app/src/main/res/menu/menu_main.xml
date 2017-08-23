@@ -7,4 +7,16 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+
+    <item
+        android:title="@string/load_config"
+        android:id="@+id/action_load_config"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item
+        android:title="@string/save_config"
+        android:id="@+id/action_save_config"
+        android:orderInCategory="102"
+        app:showAsAction="never" />
 </menu>

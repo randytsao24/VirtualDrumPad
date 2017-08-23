@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Virtual Drum Pad</string>
+
     <string name="action_settings">Settings</string>
     <string name="load_config">Load Configuration</string>
     <string name="save_config">Save Configuration</string>
+
     <string name="pad_one">ONE</string>
     <string name="pad_two">TWO</string>
     <string name="pad_three">THREE</string>
     <string name="pad_four">FOUR</string>
     <string name="pad_five">FIVE</string>
     <string name="pad_six">SIX</string>
+
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

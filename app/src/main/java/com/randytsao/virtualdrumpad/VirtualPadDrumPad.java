@@ -25,18 +25,23 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.AudioManager;
 import android.media.AudioAttributes;
+import android.widget.Spinner;
 
 public class VirtualPadDrumPad {
     Button          padButton;          // button that this pad is assigned to
+    Spinner         colorSpinner;       // Spinner that this pad is assigned to
+
     MediaPlayer     padSample;          // sample that the pad is assigned to
     int             sampleRawId;        // integer ID from res/raw
+    int             color;
 
     AudioAttributes sampleAttributes;
     SoundPool       soundPool;
 
     boolean         isLoaded;
 
-    // Constructor
+    // VirtualPadDrumPad()
+    // Constructor - assigns button to pad
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public VirtualPadDrumPad(Button b) {
         padButton = b;
@@ -48,8 +53,11 @@ public class VirtualPadDrumPad {
         sampleRawId = requestedId;
     }
 
-    // loadSample()
-    // helper function to load a sample onto the pad's sound pool
+    // setColor()
+    // Sets background color of pad to specified color associated with input string
+    public void setColor(String colorStr) {
+
+    }
 
     // playSample()
     // Play assigned sample

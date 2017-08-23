@@ -1,11 +1,15 @@
 /**
  *  MainDrumPadActivity
  *
+ *  by Randy Tsao (randytsao24@gmail.com)
+ *
+ *  This is the main activity for the VirtualDrumPad application.
  *
  */
 
 package com.randytsao.virtualdrumpad;
 
+import android.media.audiofx.BassBoost;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.content.Intent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,19 +30,21 @@ import android.database.sqlite.*;
 
 public class MainDrumPadActivity extends AppCompatActivity {
 
-    public static Button buttonOne;
-    public static Button buttonTwo;
-    public static Button buttonThree;
-    public static Button buttonFour;
-    public static Button buttonFive;
-    public static Button buttonSix;
+    Button buttonOne;
+    Button buttonTwo;
+    Button buttonThree;
+    Button buttonFour;
+    Button buttonFive;
+    Button buttonSix;
 
-    private VirtualPadDrumPad padOne;
-    private VirtualPadDrumPad padTwo;
-    private VirtualPadDrumPad padThree;
-    private VirtualPadDrumPad padFour;
-    private VirtualPadDrumPad padFive;
-    private VirtualPadDrumPad padSix;
+    public static VirtualPadDrumPad padOne;
+    public static VirtualPadDrumPad padTwo;
+    public static VirtualPadDrumPad padThree;
+    public static VirtualPadDrumPad padFour;
+    public static VirtualPadDrumPad padFive;
+    public static VirtualPadDrumPad padSix;
+
+    MenuItem settingsItem;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -109,19 +116,27 @@ public class MainDrumPadActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        // Check what menu item was selected
+        switch (id) {
+            // Switch to settings menu when "Settings" item is clicked
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                break;
+            // Switch to configuration list when item is clicked
+            case R.id.action_load_config:
+                break;
+            // Switch to configuration saving activity when item is clicked
+            case R.id.action_save_config:
+                break;
+            default:
+        }
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-    // onSettingsClicked
-    // Handler for Settings in toolbar being clicked.
-    /*public void onSettingsClicked(View view) {
-
-    }*/
 
     // onPadOneClick
     public void onPadOneClicked(View view) {
