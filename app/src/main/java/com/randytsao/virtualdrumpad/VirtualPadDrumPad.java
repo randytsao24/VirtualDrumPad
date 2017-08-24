@@ -26,6 +26,8 @@ import android.media.SoundPool;
 import android.media.AudioManager;
 import android.media.AudioAttributes;
 import android.widget.Spinner;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 
 public class VirtualPadDrumPad {
     Button          padButton;          // button that this pad is assigned to
@@ -45,22 +47,36 @@ public class VirtualPadDrumPad {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public VirtualPadDrumPad(Button b) {
         padButton = b;
+        //padSample = new MediaPlayer();
     }
 
     // setSample()
-    // set sample to pad's sample ID
+    // Sets sample to pad's sample ID
     public void setSample(int requestedId) {
         sampleRawId = requestedId;
+        padSample.selectTrack(sampleRawId);
+    }
+
+    // setPadText()
+    // Sets button's text to specified string
+    public void setPadText(String newText) {
+        padButton.setText(newText);
     }
 
     // setColor()
     // Sets background color of pad to specified color associated with input string
-    public void setColor(String colorStr) {
+    public void setColor(int colorVal) {
+        padButton.getBackground().setColorFilter(colorVal, PorterDuff.Mode.SRC_OVER);
 
+        // Change text color to white if color is blue or black
+        if (colorVal == Color.BLUE || colorVal == Color.BLACK)
+            padButton.setTextColor(Color.WHITE);
+         else
+            padButton.setTextColor(Color.BLACK);
     }
 
     // playSample()
-    // Play assigned sample
+    // Play assigned sample, called when a short pad click is detected
     public void playSample() {
 
         // Check if sample is still playing, reset to beginning if so

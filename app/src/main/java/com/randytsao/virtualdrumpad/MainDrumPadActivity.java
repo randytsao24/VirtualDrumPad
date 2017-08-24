@@ -18,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +30,9 @@ import android.widget.Button;
 import android.database.sqlite.*;
 
 public class MainDrumPadActivity extends AppCompatActivity {
+
+    // Originally wanted to use structures to hold multiple buttons/pads, decided against it
+    // for clarity's sake, also don't want to have ability to hold less/more buttons and pads
 
     Button buttonOne;
     Button buttonTwo;
@@ -84,7 +88,8 @@ public class MainDrumPadActivity extends AppCompatActivity {
         padFive = new VirtualPadDrumPad(buttonFive);
         padSix = new VirtualPadDrumPad(buttonSix);
 
-        // Set pads to existing samples
+        // Initialize and set pads to existing samples
+        // TODO: Set pads to last saved configuration
         padOne.padSample = MediaPlayer.create(this, R.raw.clap_808);
         padTwo.padSample = MediaPlayer.create(this, R.raw.kick_acoustic01);
         padThree.padSample = MediaPlayer.create(this, R.raw.hihat_acoustic01);
@@ -92,14 +97,14 @@ public class MainDrumPadActivity extends AppCompatActivity {
         padFive.padSample = MediaPlayer.create(this, R.raw.openhat_acoustic01);
         padSix.padSample = MediaPlayer.create(this, R.raw.perc_tribal);
 
-
-
-        padOne.setSample(R.raw.clap_808);
-        padTwo.setSample(R.raw.kick_acoustic01);
-        padThree.setSample(R.raw.hihat_acoustic01);
-        padFour.setSample(R.raw.crash_acoustic);
-        padFive.setSample(R.raw.openhat_acoustic01);
-        padSix.setSample(R.raw.perc_tribal);
+        // Initialize colors of pads to light gray
+        // TODO: Set pad colors to saved configuration
+        padOne.setColor(Color.GRAY);
+        padTwo.setColor(Color.LTGRAY);
+        padThree.setColor(Color.LTGRAY);
+        padFour.setColor(Color.RED);
+        padFive.setColor(Color.LTGRAY);
+        padSix.setColor(Color.LTGRAY);
     }
 
     @Override
