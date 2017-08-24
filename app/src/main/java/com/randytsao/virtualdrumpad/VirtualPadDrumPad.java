@@ -46,7 +46,10 @@ public class VirtualPadDrumPad {
     // Constructor for VirtualDrumPad
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public VirtualPadDrumPad(Button b) {
+        // Assign button
         padButton = b;
+
+        // Instantiate MediaPlayer object for padSample
         //padSample = new MediaPlayer();
     }
 
