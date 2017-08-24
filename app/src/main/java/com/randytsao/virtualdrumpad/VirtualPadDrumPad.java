@@ -43,7 +43,7 @@ public class VirtualPadDrumPad {
     boolean         isLoaded;
 
     // VirtualPadDrumPad()
-    // Constructor - assigns button to pad
+    // Constructor for VirtualDrumPad
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public VirtualPadDrumPad(Button b) {
         padButton = b;
