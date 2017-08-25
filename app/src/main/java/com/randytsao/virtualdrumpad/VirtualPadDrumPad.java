@@ -9,21 +9,12 @@
 package com.randytsao.virtualdrumpad;
 
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.util.Log;
+import android.content.Context;
 
 import android.widget.Button;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
-import android.media.AudioManager;
 import android.media.AudioAttributes;
 import android.widget.Spinner;
 import android.graphics.Color;
@@ -32,10 +23,12 @@ import android.graphics.PorterDuff;
 public class VirtualPadDrumPad {
     Button          padButton;          // button that this pad is assigned to
     Spinner         colorSpinner;       // Spinner that this pad is assigned to
+    Context         mainContext;        // interface to main activity
+    String          padIndexStr;           // index that pad is assigned to
 
     MediaPlayer     padSample;          // sample that the pad is assigned to
+    String          sampleName;         // sample name in String format
     int             sampleRawId;        // integer ID from res/raw
-    int             color;
 
     AudioAttributes sampleAttributes;
     SoundPool       soundPool;
@@ -45,19 +38,38 @@ public class VirtualPadDrumPad {
     // VirtualPadDrumPad()
     // Constructor for VirtualDrumPad
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public VirtualPadDrumPad(Button b) {
+    public VirtualPadDrumPad(String index, Context c, Button b) {
+        // Assign index
+        padIndexStr = index;
+
+        // Get context for main activity
+        mainContext = c;
+
         // Assign button
         padButton = b;
 
-        // Instantiate MediaPlayer object for padSample
-        //padSample = new MediaPlayer();
+        // Instantiate basic MediaPlayer object for padSample
+        padSample = MediaPlayer.create(c, R.raw.kick_acoustic01);
     }
 
     // setSample()
     // Sets sample to pad's sample ID
     public void setSample(int requestedId) {
+        String tempStr;
+        int start, end;
+
+        // Change assigned sample to requested sample
         sampleRawId = requestedId;
-        padSample.selectTrack(sampleRawId);
+        tempStr = mainContext.getString(sampleRawId);
+        padSample = MediaPlayer.create(mainContext, sampleRawId);
+
+        // Update sample button description text
+        tempStr = mainContext.getString(sampleRawId);
+        start = tempStr.lastIndexOf("/");
+        end = tempStr.lastIndexOf(".");
+        sampleName = tempStr.substring(start + 1, end);
+
+        padButton.setText(padIndexStr + "\n\n(" + sampleName + ")");
     }
 
     // setPadText()

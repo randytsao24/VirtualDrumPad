@@ -9,25 +9,29 @@
 
 package com.randytsao.virtualdrumpad;
 
-import android.media.audiofx.BassBoost;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.media.AudioManager;
 import android.widget.Button;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+import android.widget.ImageView;
 
 import android.database.sqlite.*;
+import android.util.Log;
+import java.util.ArrayList;
+import java.lang.reflect.Field;
 
 public class MainDrumPadActivity extends AppCompatActivity {
 
@@ -48,26 +52,18 @@ public class MainDrumPadActivity extends AppCompatActivity {
     public static VirtualPadDrumPad padFive;
     public static VirtualPadDrumPad padSix;
 
-    MenuItem settingsItem;
+    Toast toast;
+
+    String[] sampleStrList;
+
+    MenuItem sampleMenuSelectionItem;
+    PopupMenu sampleMenu;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Configure toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         // Set title of our app
         setTitle("Virtual Drum Pad");
@@ -81,21 +77,21 @@ public class MainDrumPadActivity extends AppCompatActivity {
         buttonSix = (Button)findViewById(R.id.padSix);
 
         // Assign buttons to virtual drum pads
-        padOne = new VirtualPadDrumPad(buttonOne);
-        padTwo = new VirtualPadDrumPad(buttonTwo);
-        padThree = new VirtualPadDrumPad(buttonThree);
-        padFour = new VirtualPadDrumPad(buttonFour);
-        padFive = new VirtualPadDrumPad(buttonFive);
-        padSix = new VirtualPadDrumPad(buttonSix);
+        padOne = new VirtualPadDrumPad("ONE", this, buttonOne);
+        padTwo = new VirtualPadDrumPad("TWO", this, buttonTwo);
+        padThree = new VirtualPadDrumPad("THREE", this, buttonThree);
+        padFour = new VirtualPadDrumPad("FOUR", this, buttonFour);
+        padFive = new VirtualPadDrumPad("FIVE", this, buttonFive);
+        padSix = new VirtualPadDrumPad("SIX", this, buttonSix);
 
         // Initialize and set pads to existing samples
         // TODO: Set pads to last saved configuration
-        padOne.padSample = MediaPlayer.create(this, R.raw.clap_808);
-        padTwo.padSample = MediaPlayer.create(this, R.raw.kick_acoustic01);
-        padThree.padSample = MediaPlayer.create(this, R.raw.hihat_acoustic01);
-        padFour.padSample = MediaPlayer.create(this, R.raw.crash_acoustic);
-        padFive.padSample = MediaPlayer.create(this, R.raw.openhat_acoustic01);
-        padSix.padSample = MediaPlayer.create(this, R.raw.perc_tribal);
+        padOne.setSample(R.raw.clap_808);
+        padTwo.setSample(R.raw.kick_acoustic01);
+        padThree.setSample(R.raw.hihat_acoustic01);
+        padFour.setSample(R.raw.crash_acoustic);
+        padFive.setSample(R.raw.openhat_acoustic01);
+        padSix.setSample(R.raw.perc_tribal);
 
         // Initialize colors of pads to light gray
         // TODO: Set pad colors to saved configuration
@@ -105,6 +101,90 @@ public class MainDrumPadActivity extends AppCompatActivity {
         padFour.setColor(Color.RED);
         padFive.setColor(Color.LTGRAY);
         padSix.setColor(Color.LTGRAY);
+
+        toast = new Toast(getApplicationContext());
+
+        // Set up sample list menu
+        sampleStrList = getSampleList();
+        initSampleMenu(buttonOne);
+
+        // Initialize long click functionality on buttons, want to display menu of samples to
+        // choose for user in event of a long click on a pad
+        buttonOne.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                initSampleMenu(buttonOne);
+
+                sampleMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        sampleMenuSelectionItem = menuItem;
+                        int itemId = menuItem.getOrder();
+                        String text = menuItem.toString();
+
+                        // Update button text with new sample selection
+                        buttonOne.setText("ONE\n\n" + "(" + text + ")");
+
+                        return true;
+                    }
+                });
+
+                sampleMenu.show();
+                return true;
+            }
+        });
+
+        buttonTwo.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                initSampleMenu(buttonTwo);
+
+                sampleMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        sampleMenuSelectionItem = menuItem;
+                        int itemId = menuItem.getOrder();
+                        String text = menuItem.toString();
+
+                        // Update button text with new sample selection
+                        buttonTwo.setText("TWO\n\n" + "(" + text + ")");
+
+                        return true;
+                    }
+                });
+
+                sampleMenu.show();
+                return true;
+            }
+        });
+
+        buttonSix.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                initSampleMenu(buttonSix);
+
+                sampleMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        sampleMenuSelectionItem = menuItem;
+                        int itemId = menuItem.getOrder();
+                        String text = menuItem.toString();
+
+                        // Update button text with new sample selection
+                        buttonSix.setText("SIX\n\n" + "(" + text + ")");
+
+                        return true;
+                    }
+                });
+
+                sampleMenu.show();
+                return true;
+            }
+        });
+
+        /*for (int i = 0; i < sampleStrList.length; i++) {
+            Log.d("Sample name: ", sampleStrList[i]);
+        } */
     }
 
     @Override
@@ -173,4 +253,33 @@ public class MainDrumPadActivity extends AppCompatActivity {
         padSix.playSample();
     }
 
+    // getSampleList()
+    // This function creates a list of Strings composed of the samples contained in res/raw.
+    public String[] getSampleList() {
+        Field[] rawFields = R.raw.class.getFields();
+        Field tempField;
+
+        String[] sampleList = new String[rawFields.length];
+
+        sampleList[0] = "SAMPLE LIST";
+
+        // Store fields from res/raw into our list of samples
+        for (int i = 1; i < rawFields.length; i++) {
+            tempField = rawFields[i];
+            sampleList[i] = tempField.getName();
+        }
+
+        return sampleList;
+    }
+
+    // initSampleMenu()
+    // This function adds all of the names of the samples into a list to be displayed to the user
+    // whenever a pad configuration is requested
+    public void initSampleMenu(View view) {
+        sampleMenu = new PopupMenu(this, view);
+
+        for (int i = 0; i < sampleStrList.length; i++) {
+            sampleMenu.getMenu().add(sampleStrList[i]);
+        }
+    }
 }
