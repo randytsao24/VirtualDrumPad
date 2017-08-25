@@ -65,6 +65,10 @@ public class MainDrumPadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Configure toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         // Set title of our app
         setTitle("Virtual Drum Pad");
 
@@ -77,12 +81,12 @@ public class MainDrumPadActivity extends AppCompatActivity {
         buttonSix = (Button)findViewById(R.id.padSix);
 
         // Assign buttons to virtual drum pads
-        padOne = new VirtualPadDrumPad("ONE", this, buttonOne);
-        padTwo = new VirtualPadDrumPad("TWO", this, buttonTwo);
-        padThree = new VirtualPadDrumPad("THREE", this, buttonThree);
-        padFour = new VirtualPadDrumPad("FOUR", this, buttonFour);
-        padFive = new VirtualPadDrumPad("FIVE", this, buttonFive);
-        padSix = new VirtualPadDrumPad("SIX", this, buttonSix);
+        padOne = new VirtualPadDrumPad(1, this, buttonOne);
+        padTwo = new VirtualPadDrumPad(2, this, buttonTwo);
+        padThree = new VirtualPadDrumPad(3, this, buttonThree);
+        padFour = new VirtualPadDrumPad(4, this, buttonFour);
+        padFive = new VirtualPadDrumPad(5, this, buttonFive);
+        padSix = new VirtualPadDrumPad(6, this, buttonSix);
 
         // Initialize and set pads to existing samples
         // TODO: Set pads to last saved configuration

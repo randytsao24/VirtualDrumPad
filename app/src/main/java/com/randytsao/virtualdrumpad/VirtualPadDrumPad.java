@@ -24,21 +24,19 @@ public class VirtualPadDrumPad {
     Button          padButton;          // button that this pad is assigned to
     Spinner         colorSpinner;       // Spinner that this pad is assigned to
     Context         mainContext;        // interface to main activity
-    String          padIndexStr;           // index that pad is assigned to
+    int             padIndexStr;           // index that pad is assigned to
 
+    DrumSample      sample;
     MediaPlayer     padSample;          // sample that the pad is assigned to
     String          sampleName;         // sample name in String format
     int             sampleRawId;        // integer ID from res/raw
 
-    AudioAttributes sampleAttributes;
-    SoundPool       soundPool;
-
-    boolean         isLoaded;
-
     // VirtualPadDrumPad()
     // Constructor for VirtualDrumPad
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public VirtualPadDrumPad(String index, Context c, Button b) {
+    public VirtualPadDrumPad(int index, Context c, Button b) {
+        MediaPlayer padSample;
+
         // Assign index
         padIndexStr = index;
 
@@ -50,26 +48,14 @@ public class VirtualPadDrumPad {
 
         // Instantiate basic MediaPlayer object for padSample
         padSample = MediaPlayer.create(c, R.raw.kick_acoustic01);
+        sample = new DrumSample(this, padSample, R.raw.kick_acoustic01);
     }
 
     // setSample()
     // Sets sample to pad's sample ID
     public void setSample(int requestedId) {
-        String tempStr;
-        int start, end;
-
         // Change assigned sample to requested sample
-        sampleRawId = requestedId;
-        tempStr = mainContext.getString(sampleRawId);
-        padSample = MediaPlayer.create(mainContext, sampleRawId);
-
-        // Update sample button description text
-        tempStr = mainContext.getString(sampleRawId);
-        start = tempStr.lastIndexOf("/");
-        end = tempStr.lastIndexOf(".");
-        sampleName = tempStr.substring(start + 1, end);
-
-        padButton.setText(padIndexStr + "\n\n(" + sampleName + ")");
+        sample.setSample(requestedId);
     }
 
     // setPadText()
@@ -95,9 +81,9 @@ public class VirtualPadDrumPad {
     public void playSample() {
 
         // Check if sample is still playing, reset to beginning if so
-        if (padSample.isPlaying()) {
-            padSample.seekTo(0);
+        if (sample.samplePlayer.isPlaying()) {
+            sample.samplePlayer.seekTo(0);
         } else
-            padSample.start();
+            sample.samplePlayer.start();
     }
 }
